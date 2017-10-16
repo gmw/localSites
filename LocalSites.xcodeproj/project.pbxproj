@@ -284,7 +284,7 @@
 				CODE_SIGN_ENTITLEMENTS = LocalSites/LocalSites.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = RQ57RZ75M9;
+				DEVELOPMENT_TEAM = M69S6XM65D;
 				INFOPLIST_FILE = LocalSites/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -301,7 +301,7 @@
 				CODE_SIGN_ENTITLEMENTS = LocalSites/LocalSites.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = RQ57RZ75M9;
+				DEVELOPMENT_TEAM = M69S6XM65D;
 				INFOPLIST_FILE = LocalSites/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
