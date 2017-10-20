@@ -38,6 +38,8 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     
     if let domainList = defaults.array(forKey: "browseDomains") as? [String] {
         browseDomains = domainList
+    } else {
+        browseDomains = [ "local." ]
     }
     browseDomainsTable.dataSource = self
     browseDomainsTable.delegate = self
