@@ -86,7 +86,7 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
 
     netServiceBrowsers.append(nsb)
     
-    if let browseDomains = UserDefaults.standard.array(forKey: "browseDomains") as? [String]{
+    if let browseDomains = UserDefaults.standard.array(forKey: "browseDomains") as? [String] {
         // Search additional domains
         for domainName in browseDomains {
             let nsb = NetServiceBrowser()
