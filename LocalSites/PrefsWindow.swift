@@ -16,10 +16,12 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
 
   @IBOutlet weak var monochromeIconCheckbox: NSButton!
   @IBOutlet weak var browseDomainsTable: NSTableView!
-    
-  var browseDomains = ["dns-sd.org."] // Default additional domain if nothing else specified (first run only!)
-  var delegate: PrefsWindowDelegate?
+  @IBOutlet weak var addRemoveControl: NSSegmentedControl!
 
+  var browseDomains = [""]
+  var delegate: PrefsWindowDelegate?
+  var prefs = Preferences()
+    
   override var windowNibName : NSNib.Name! {
     return NSNib.Name(rawValue: "PrefsWindow")
   }
@@ -31,21 +33,13 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     self.window?.makeKeyAndOrderFront(nil)
     NSApp.activate(ignoringOtherApps: true)
 
+    monochromeIconCheckbox.state = prefs.useMonochromeIcon ? NSControl.StateValue.on : NSControl.StateValue.off
+    browseDomains = prefs.bonjourDomains
     
-    let defaults = UserDefaults.standard
-    let monochrome = defaults.bool(forKey: "monochromeIcon")
-    monochromeIconCheckbox.state = monochrome ? NSControl.StateValue.on : NSControl.StateValue.off
-    
-    if let domainList = defaults.array(forKey: "browseDomains") as? [String] {
-        browseDomains = domainList
-    } else {
-        browseDomains = [ "local." ]
-    }
     browseDomainsTable.dataSource = self
     browseDomainsTable.delegate = self
   }
 
-    @IBOutlet weak var addRemoveControl: NSSegmentedControl!
     @IBAction func modifyDomainList(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
         case 0: // Add
@@ -74,14 +68,14 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
 
     // MARK: - NSWindowDelegate
   func windowWillClose(_ notification: Notification) {
-    let defaults = UserDefaults.standard
-    defaults.setValue(monochromeIconCheckbox.state==NSControl.StateValue.on, forKey: "monochromeIcon")
-    defaults.setValue(browseDomains, forKey: "browseDomains")
-
+    prefs.useMonochromeIcon = (monochromeIconCheckbox.state == .on)
+    prefs.bonjourDomains = browseDomains
     delegate?.prefsDidUpdate()
   }
 
 }
+
+// MARK: - Domain browsing list management
 
 extension PrefsWindow: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -97,18 +91,4 @@ extension PrefsWindow: NSTableViewDataSource, NSTableViewDelegate {
         return view
     }
 
-    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        return true
-    }
-
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return browseDomains[row]
-    }
-    func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
-        browseDomains[row] = object as! String
-    }
 }

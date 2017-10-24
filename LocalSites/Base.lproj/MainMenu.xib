@@ -26,7 +26,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="rd9-Wv-GxQ"/>
-                <menuItem title="About…" id="qLI-Y7-nTG">
+                <menuItem title="About" id="qLI-Y7-nTG">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="aboutChosen:" target="OO7-7k-kb7" id="9yl-Y9-MTo"/>
