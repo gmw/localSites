@@ -12,45 +12,23 @@ protocol LocalSitesDelegate {
     func foundServices(_ services: [NetService])
 }
 
-extension NetService {
-    func getHttpURL() -> URL? {
-        if hostName != nil, let txtData = txtRecordData(), port != -1 {
-            var urlString: String
-            
-            if port != 80 {
-                urlString = "http://\(hostName!):\(port)"
-            } else {
-                urlString = "http://\(hostName!)"
-            }
-            
-            let dict = NetService.dictionary(fromTXTRecord: txtData)
-            if let pathData = dict["path"],
-                let path = String(data:pathData, encoding:.utf8) {
-                if !path.starts(with: "/") {
-                    urlString += "/" + path
-                } else {
-                    urlString += path
-                }
-            }
-            return URL(string: urlString)
-
-        }
-        return nil
-    }
-}
 class LocalSites: NSObject {
     var domainsToBrowse: [String] = []
     var browsers = [String:NetServiceBrowser]()
     var services = [NetService]()
     var delegate: LocalSitesDelegate?
-    
+
+    let resolveTimeout = TimeInterval(5.0)
+
     func startBrowsing() {
         let browser = NetServiceBrowser()
         browser.searchForBrowsableDomains()
     }
     
     func stopBrowsing() {
-        
+        for (_, browser) in browsers {
+            browser.stop()
+        }
     }
     
     func addBrowseDomain(_ domain: String) {
@@ -83,20 +61,28 @@ class LocalSites: NSObject {
     
 }
 
-// MARK: - NetServiceBrowserDelegate -
+// MARK: - NetServiceBrowserDelegate
 
 extension LocalSites: NetServiceBrowserDelegate {
+
     func netServiceBrowserWillSearch(_ browser: NetServiceBrowser) {
         
     }
+
     func netServiceBrowserDidStopSearch(_ browser: NetServiceBrowser) {
+        if browsers.values.contains(browser) {
+
+        }
     }
 
     func netServiceBrowser(_ browser: NetServiceBrowser, didNotSearch errorDict: [String : NSNumber]) {
         
     }
+
     func netServiceBrowser(_ browser: NetServiceBrowser, didFind service: NetService, moreComing: Bool) {
         services.append(service)
+        service.delegate = self
+        service.resolve(withTimeout: self.resolveTimeout)
         if !moreComing {
             delegate?.foundServices(services)
         }
@@ -104,9 +90,10 @@ extension LocalSites: NetServiceBrowserDelegate {
     
 }
 
-// MARK: - NetServiceDelegate -
+// MARK: - NetServiceDelegate
 
 extension LocalSites: NetServiceDelegate {
+
     func netServiceDidResolveAddress(_ sender: NetService) {
         
     }
@@ -116,5 +103,32 @@ extension LocalSites: NetServiceDelegate {
     func netService(_ sender: NetService, didNotResolve errorDict: [String : NSNumber]) {
         
     }
-    
+}
+
+extension NetService {
+
+    func getHttpURL() -> URL? {
+        if let host = hostName, let txtData = txtRecordData(), port != -1 {
+            var urlString: String
+
+            if port != 80 {
+                urlString = "http://\(host):\(port)"
+            } else {
+                urlString = "http://\(host)"
+            }
+
+            let dict = NetService.dictionary(fromTXTRecord: txtData)
+            if let pathData = dict["path"],
+                let path = String(data:pathData, encoding:.utf8) {
+                if !path.starts(with: "/") {
+                    urlString += "/" + path
+                } else {
+                    urlString += path
+                }
+            }
+            return URL(string: urlString)
+
+        }
+        return nil
+    }
 }

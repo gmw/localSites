@@ -62,6 +62,9 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     @IBAction func editCell(_ sender: NSTextField) {
         print("editCell")
         let row = browseDomainsTable.row(for: sender)
+        if browseDomains.count < 1 {
+            browseDomains.append("")
+        }
         browseDomains[row] = sender.stringValue
     }
 
@@ -96,9 +99,9 @@ extension PrefsWindow: NSTableViewDataSource, NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let view = tableView.makeView(withIdentifier: PrefsWindow.identifier , owner: self) as! NSTableCellView
-        
-        view.textField?.stringValue  = browseDomains[row]
-
+        if browseDomains.count > 0 {
+            view.textField?.stringValue  = browseDomains[row]
+        }
         return view
     }
 
