@@ -18,9 +18,9 @@ extension NetService {
             var urlString: String
             
             if port != 80 {
-                urlString = "http://\(hostName):\(port)"
+                urlString = "http://\(hostName!):\(port)"
             } else {
-                urlString = "http://\(hostName)"
+                urlString = "http://\(hostName!)"
             }
             
             let dict = NetService.dictionary(fromTXTRecord: txtData)
@@ -46,7 +46,7 @@ class LocalSites: NSObject {
     
     func startBrowsing() {
         let browser = NetServiceBrowser()
-        let browsableDomains = browser.searchForBrowsableDomains()
+        browser.searchForBrowsableDomains()
     }
     
     func stopBrowsing() {

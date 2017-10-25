@@ -19,35 +19,35 @@
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="490" height="237"/>
+            <rect key="contentRect" x="196" y="240" width="260" height="237"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="490" height="237"/>
+                <rect key="frame" x="0.0" y="0.0" width="260" height="237"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t2j-q3-hlQ">
-                        <rect key="frame" x="32" y="186" width="417" height="18"/>
+                        <rect key="frame" x="18" y="201" width="224" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="monochrome status bar icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ftb-4G-AFJ">
+                        <buttonCell key="cell" type="check" title="Use monochrome status icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ftb-4G-AFJ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eW-xE-Eh8">
-                        <rect key="frame" x="223" y="72" width="247" height="92"/>
+                        <rect key="frame" x="20" y="49" width="212" height="92"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="GgD-Jd-JIp">
-                            <rect key="frame" x="1" y="1" width="245" height="90"/>
+                            <rect key="frame" x="1" y="1" width="210" height="90"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="6gJ-cA-ORU">
-                                    <rect key="frame" x="0.0" y="0.0" width="245" height="90"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="210" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="" width="242" minWidth="40" maxWidth="1000" id="gfh-vx-69p">
+                                        <tableColumn identifier="" width="207" minWidth="207" maxWidth="1000" id="gfh-vx-69p">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -57,21 +57,27 @@
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <connections>
+                                                    <action selector="textCellAction:" target="-2" id="xP9-aP-NTx"/>
+                                                </connections>
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="domainListCell" id="Ir3-Vf-9wf">
-                                                    <rect key="frame" x="1" y="1" width="242" height="17"/>
+                                                    <rect key="frame" x="1" y="1" width="207" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oaX-Wh-YuY">
-                                                            <rect key="frame" x="0.0" y="0.0" width="242" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="207" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="ZBW-wI-lIE">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <action selector="editCell:" target="-2" id="GeZ-ik-zb4"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <connections>
@@ -83,11 +89,13 @@
                                     </tableColumns>
                                     <connections>
                                         <action selector="tableAction:" target="-2" id="NOu-9C-Hdh"/>
+                                        <outlet property="dataSource" destination="-2" id="N3X-6a-gb8"/>
+                                        <outlet property="delegate" destination="-2" id="xak-3o-NBc"/>
                                     </connections>
                                 </tableView>
                             </subviews>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="xmg-9G-WOv">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="xmg-9G-WOv">
                             <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -96,17 +104,8 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yoa-6k-jAI">
-                        <rect key="frame" x="34" y="147" width="224" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Additional Bonjour domains:" id="nTD-Ob-Kja">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="362-hG-Hn2">
-                        <rect key="frame" x="220" y="41" width="62" height="24"/>
+                        <rect key="frame" x="18" y="18" width="62" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="0U2-oN-Pke">
                             <font key="font" metaFont="system"/>
@@ -119,28 +118,22 @@
                             <action selector="modifyDomainList:" target="-2" id="WDf-8u-vZu"/>
                         </connections>
                     </segmentedControl>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yoa-6k-jAI">
+                        <rect key="frame" x="18" y="149" width="224" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Additional Bonjour domains:" id="nTD-Ob-Kja">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="-459" y="64.5"/>
+            <point key="canvasLocation" x="-579" y="66.5"/>
         </window>
-        <segmentedControl verticalHuggingPriority="750" id="aat-23-pnb">
-            <rect key="frame" x="0.0" y="0.0" width="104" height="24"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="duq-wV-Uiq">
-                <font key="font" metaFont="system"/>
-                <segments>
-                    <segment width="32"/>
-                    <segment width="32" selected="YES" tag="1"/>
-                    <segment width="32">
-                        <nil key="label"/>
-                    </segment>
-                </segments>
-            </segmentedCell>
-            <point key="canvasLocation" x="-583" y="327"/>
-        </segmentedControl>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
