@@ -29,7 +29,13 @@ struct Preferences {
             
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "bonjourDomains")
+            var validDomains = [String]()
+            for domain in newValue {
+                if !(domain.trimmingCharacters(in: CharacterSet.whitespaces)).isEmpty {
+                    validDomains.append(domain)
+                }
+            }
+            UserDefaults.standard.set(validDomains, forKey: "bonjourDomains")
         }
     }
 }
