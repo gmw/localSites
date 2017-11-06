@@ -214,10 +214,16 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
             statusMenu.removeItem(at: headerMenuItems)
         }
         // show new services
-        if (services.count>0) {
+        if services.count > 0 {
+            var domain: String?  = nil
             // sort the services
             let sortedServices : [NetService] = services.sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedDescending });
-            for service in sortedServices {
+            let groupedServices = sortedServices.sorted(by: { (first, second) -> Bool in
+                return first.domain.caseInsensitiveCompare(second.domain) == .orderedDescending
+            })
+            for service in groupedServices {
+
+
                 let item = NSMenuItem();
                 item.title = service.name;
                 item.representedObject = service;
@@ -225,6 +231,18 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
                 item.action = #selector(localSiteMenuItemSelected)
                 item.isEnabled = service.hostName != nil
                 statusMenu.insertItem(item, at: headerMenuItems)
+
+                if domain != service.domain {
+                    // Insert separator and disabled menu item with domain name
+                    statusMenu.insertItem(NSMenuItem.separator(), at: headerMenuItems)
+                    let domainItem = NSMenuItem()
+
+                    domainItem.title = service.domain
+                    domainItem.isEnabled = false
+                    statusMenu.insertItem(domainItem, at: headerMenuItems)
+
+                    domain = service.domain
+                }
             }
         }
         else {
