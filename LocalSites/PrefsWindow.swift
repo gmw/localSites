@@ -65,7 +65,11 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
         if browseDomains.count < 1 {
             browseDomains.append("")
         }
-        browseDomains[row] = sender.stringValue
+        if row != -1 {
+            browseDomains[row] = sender.stringValue
+        } else {
+            // Don't do nothing
+        }
     }
 
     @IBAction func tableAction(_ sender: NSTableView) {
