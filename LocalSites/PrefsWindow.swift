@@ -23,7 +23,7 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     var prefs = Preferences()
     
     override var windowNibName : NSNib.Name! {
-        return NSNib.Name(rawValue: "PrefsWindow")
+        return "PrefsWindow"
     }
 
     @IBOutlet weak var fieldEditor: NSTextField!

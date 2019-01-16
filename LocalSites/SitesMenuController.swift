@@ -303,7 +303,7 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
     func updateIcon() {
         let defaults = UserDefaults.standard
         let monochrome = defaults.bool(forKey: "monochromeIcon")
-        let icon = NSImage(named: NSImage.Name(rawValue: "statusIcon"))
+        let icon = NSImage(named: "statusIcon")
         icon?.isTemplate = monochrome
         statusItem.image = icon
     }

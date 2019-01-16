@@ -15,13 +15,13 @@ class AboutWindow: NSWindowController {
   @IBOutlet weak var versionLabel: NSTextField!
   
   override var windowNibName : NSNib.Name! {
-    return NSNib.Name(rawValue: "AboutWindow")
+    return "AboutWindow"
   }
 
   override func windowDidLoad() {
     super.windowDidLoad()
 
-    iconImage.image = NSImage(named:NSImage.Name(rawValue: "AppIcon"))
+    iconImage.image = NSImage(named:"AppIcon")
     self.window?.center()
     self.window?.makeKeyAndOrderFront(nil)
     NSApp.activate(ignoringOtherApps: true)
