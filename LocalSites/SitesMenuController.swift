@@ -87,7 +87,7 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
             let nsb = NetServiceBrowser()
             nsb.delegate = self
             nsb.searchForServices(ofType: "_http._tcp", inDomain: domainName)
-            print("Starting search in domain \(domainName)")
+            os_log(.info, "Starting search in domain %@", [domainName])
             netServiceBrowsers.append(nsb)
         }
     }
@@ -305,7 +305,7 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
         let monochrome = defaults.bool(forKey: "monochromeIcon")
         let icon = NSImage(named: "statusIcon")
         icon?.isTemplate = monochrome
-        statusItem.image = icon
+        statusItem.button?.image = icon
     }
     
     // MARK: - Actions -
