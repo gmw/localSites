@@ -21,12 +21,10 @@ struct Preferences {
     
     var bonjourDomains: [String] {
         get {
-            if let domains = UserDefaults.standard.array(forKey: "bonjourDomains") as? [String] {
-               return domains
-            } else {
+            guard let domains = UserDefaults.standard.array(forKey: "bonjourDomains") as? [String] else {
                 return ["dns-sd.org."]
             }
-            
+            return domains
         }
         set {
             var validDomains = [String]()

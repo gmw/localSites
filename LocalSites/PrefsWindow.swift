@@ -25,8 +25,6 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     override var windowNibName : NSNib.Name! {
         return "PrefsWindow"
     }
-
-    @IBOutlet weak var fieldEditor: NSTextField!
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -60,7 +58,6 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     }
 
     @IBAction func editCell(_ sender: NSTextField) {
-        print("editCell")
         let row = browseDomainsTable.row(for: sender)
         if browseDomains.count < 1 {
             browseDomains.append("")
@@ -73,7 +70,6 @@ class PrefsWindow: NSWindowController, NSWindowDelegate {
     }
 
     @IBAction func tableAction(_ sender: NSTableView) {
-        print("tableAction")
         let selectedRow = sender.selectedRow
         if selectedRow != -1 && selectedRow < browseDomains.count {
             addRemoveControl.setEnabled(true, forSegment: 1)
@@ -110,7 +106,6 @@ extension PrefsWindow: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        print("shouldSelectRow: \(row)?")
         return true
     }
 

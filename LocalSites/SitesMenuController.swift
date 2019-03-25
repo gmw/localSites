@@ -168,7 +168,8 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
     }
 
     func netServiceBrowser(_:NetServiceBrowser, didNotSearch errorDict: [String : NSNumber]) {
-        print("netServiceBrowser didNotSearch:\(errorDict)")
+        os_log(.error, "netServiceBrowser didNotSearch: %@", [errorDict])
+        
     }
 
     func netServiceBrowserDidStopSearch(_:NetServiceBrowser) {
@@ -279,7 +280,8 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
                 if (hostname.last ?? "_") == "." {
                     hostname.remove(at: hostname.index(before: hostname.endIndex))
                 }
-                if let url = URL(string: "http://" + hostname + ":" + String(service.port) + path) {
+                
+                if let url = URL(string: "http://\(hostname):\(service.port)\(path)") {
                     if let browserBundleId = browserBundleIds[browser] {
                         if debugOutput { print("have browser '\(browserBundleId)' open '\(url)'") }
                         NSWorkspace.shared.open([url], withAppBundleIdentifier: browserBundleId, options: NSWorkspace.LaunchOptions.default, additionalEventParamDescriptor: nil, launchIdentifiers: nil);
@@ -301,10 +303,10 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
     }
     
     func updateIcon() {
-        let defaults = UserDefaults.standard
-        let monochrome = defaults.bool(forKey: "monochromeIcon")
         let icon = NSImage(named: "statusIcon")
-        icon?.isTemplate = monochrome
+        if prefs.useMonochromeIcon {
+            icon?.isTemplate = true // A template image will be considered black only (or white, depending on whether dark mode is enabled)
+        }
         statusItem.button?.image = icon
     }
     
