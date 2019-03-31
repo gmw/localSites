@@ -18,6 +18,12 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
     let debugOutput = true
     
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength);
+
+    let headerAttributes: Dictionary<NSAttributedString.Key, Any> = {
+        let headerFont = NSFont(name: "SFProDisplay-Italic", size: 14)!
+        let headerAttributes: Dictionary<NSAttributedString.Key,Any> = [.font: headerFont]
+        return headerAttributes
+    }()
     
     var aboutWindow: AboutWindow!
     var prefsWindow: PrefsWindow!
@@ -140,12 +146,12 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
         print("Found domain \(domainString) with \(browser.debugDescription)")
     }
     
-    func netServiceBrowser(_ browser: NetServiceBrowser, didRemoveDomain domainString: String, moreComing: Bool) {
+    func netServiceBrowser(_ : NetServiceBrowser, didRemoveDomain domainString: String, moreComing: Bool) {
         print("Removed domain \(domainString)")
     }
     
     func netServiceBrowser(_: NetServiceBrowser , didFind service: NetService, moreComing: Bool) {
-        if debugOutput { print("didFind '\(service.name)', domain:\(service.domain), hostname:\(service.hostName ?? "<none>") - \(moreComing ? "more coming" : "all done")") }
+        os_log(.debug, "didFind service '%@'", [service])
         services.insert(service)
         service.delegate = self
         service.resolve(withTimeout:5)
@@ -179,8 +185,10 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
     // MARK: - NetServiceDelegate -
     
     func netServiceDidResolveAddress(_ service: NetService) {
+        os_log(.debug, "resolved service '%@' => '%@'", [service.name, service.hostName])
         if debugOutput { print("netService '\(service.name)' didResolveAddress hostname:\(service.hostName ?? "<none>")") }
         pendingResolves -= 1
+        //service.stop() // Stop resolving after first address received
         if pendingResolves < 1 {
             refreshMenu()
             pendingResolves = 0
@@ -211,41 +219,30 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
         }
         
         // remove the previous menu items
-        for _ in 0..<statusMenu.items.count-numStaticMenuItems {
+        for _ in 0..<(statusMenu.items.count - numStaticMenuItems) {
             statusMenu.removeItem(at: headerMenuItems)
         }
         // show new services
         if services.count > 0 {
-            var domain: String?  = nil
-            // sort the services
-            let sortedServices : [NetService] = services.sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedDescending });
-            let groupedServices = sortedServices.sorted(by: { (first, second) -> Bool in
-                return first.domain.caseInsensitiveCompare(second.domain) == .orderedDescending
-            })
-            for service in groupedServices {
-                let item = NSMenuItem();
-                item.title = service.name;
-                item.representedObject = service;
-                item.target = self
-                item.action = #selector(localSiteMenuItemSelected)
-                item.isEnabled = service.hostName != nil
-                statusMenu.insertItem(item, at: headerMenuItems)
-                
-                if domain != service.domain {
-                    // New domain encountered, insert separator and domain name (reversed, since we're
-                    // inserting instead of appending menu items)
-                    //
+            let dict = Dictionary(grouping: services, by: { $0.domain })
+            
+            for domain in dict.keys {
+                if let domainServices = dict[domain] {
                     let domainItem = NSMenuItem()
-                    
-                    domainItem.title = service.domain
+                    domainItem.attributedTitle = NSAttributedString(string: domain, attributes: headerAttributes)
                     domainItem.isEnabled = false
-                    statusMenu.insertItem(domainItem, at: headerMenuItems)
-                    
-                    domain = service.domain
-                    // Insert separator and disabled menu item with domain name
-                    statusMenu.insertItem(NSMenuItem.separator(), at: headerMenuItems)
-                    
+                    statusMenu.addItem(domainItem)
+                    for service in domainServices {
+                        let item = NSMenuItem();
+                        item.title = service.name;
+                        item.representedObject = service;
+                        item.target = self
+                        item.action = #selector(localSiteMenuItemSelected)
+                        item.isEnabled = service.hostName != nil
+                        statusMenu.addItem(item)
+                    }
                 }
+                statusMenu.addItem(NSMenuItem.separator())
             }
         }
         else {
@@ -253,7 +250,7 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
             let item = NSMenuItem();
             item.title = "No Bonjour websites found";
             item.isEnabled = false
-            statusMenu.insertItem(item, at: headerMenuItems)
+            statusMenu.addItem(item)
         }
     }
 
@@ -324,3 +321,4 @@ class SitesMenuController: NSObject, NetServiceBrowserDelegate, NetServiceDelega
         prefsWindow.showWindow(nil)
     }
 }
+
